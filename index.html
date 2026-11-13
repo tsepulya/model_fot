@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Финансовая модель 2027</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="lib/chart.min.js"></script>
+  <script src="lib/xlsx.full.min.js"></script>
+</head>
+<body>
+<div class="container">
+  <h1>Финансовая модель 2027</h1>
+  <div class="subtitle">Базовый сценарий · двигайте ползунки — цифры пересчитываются мгновенно</div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Входные параметры</h2>
+
+      <div class="slider-block">
+        <div class="slider-label"><span>План выручки 2027</span><span class="slider-value"><span id="rev_val">140</span> млн ₽</span></div>
+        <input type="range" id="revenue" min="60" max="200" value="140" step="1">
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-label"><span>Средний чек</span><span class="slider-value"><span id="avg_val">1.36</span> млн ₽</span></div>
+        <input type="range" id="avg" min="0.8" max="3.0" value="1.36" step="0.01">
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-label"><span>Конверсия лид → замер</span><span class="slider-value"><span id="conv_lead_val">10</span> %</span></div>
+        <input type="range" id="conv_lead" min="1" max="90" value="10" step="1">
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-label"><span>Конверсия замер → договор</span><span class="slider-value"><span id="conv_meas_val">20</span> %</span></div>
+        <input type="range" id="conv_meas" min="1" max="90" value="20" step="1">
+      </div>
+
+      <div class="slider-block">
+        <div class="slider-label"><span>Замеров на менеджера в месяц</span><span class="slider-value"><span id="meas_mgr_val">8</span></span></div>
+        <input type="range" id="meas_mgr" min="1" max="30" value="8" step="1">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Что нужно сделать</h2>
+      <div class="big-numbers">
+        <div class="big-card">
+          <div class="label">Нужно договоров</div>
+          <div class="value"><span id="contracts">103</span><span class="unit">шт</span></div>
+        </div>
+        <div class="big-card alt">
+          <div class="label">Нужно замеров</div>
+          <div class="value"><span id="measurements">515</span><span class="unit">шт</span></div>
+        </div>
+        <div class="big-card warn" style="grid-column: 1 / -1;">
+          <div class="label">Нужно лидов (обращений)</div>
+          <div class="value"><span id="leads">5150</span><span class="unit">шт</span></div>
+        </div>
+        <div class="big-card mgr" style="grid-column: 1 / -1;">
+          <div class="label">Нужно менеджеров (по узкому месту)</div>
+          <div class="value"><span id="managers">6</span><span class="unit">чел</span></div>
+          <div id="mgr_detail" class="mgr-detail"></div>
+        </div>
+      </div>
+
+      <div class="checkpoint">
+        <b>Контрольные точки:</b> к <b>30 июня</b> — минимум <b><span id="cp_jun">52</span></b> договоров, к <b>30 августа</b> — <b><span id="cp_aug">83</span></b>. Октябрь–декабрь дают лишь ~10% года.
+      </div>
+
+      <button onclick="exportToExcel()">📥 Скачать Excel с этими параметрами</button>
+      <div class="footer-note">Файл сохранится в папку «Загрузки»</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top: 24px;">
+    <h2>Помесячный план и график</h2>
+    <div class="chart-wrap">
+      <canvas id="chart"></canvas>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Месяц</th>
+          <th>Договоров</th>
+          <th>Замеров</th>
+          <th>Лидов</th>
+          <th>Нужно менеджеров</th>
+        </tr>
+      </thead>
+      <tbody id="monthly-table"></tbody>
+    </table>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
